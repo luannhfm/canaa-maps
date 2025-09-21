@@ -1,0 +1,11 @@
+{
+    "totvsLanguageServer.welcomePage": false,
+    "totvsLanguageServer.folder.extensionsAllowed": [
+        ".PRW",
+        ".PRX",
+        ".APP",
+        ".TLPP",
+
+    ],
+    "totvsLanguageServer.askCompileResult": false
+}

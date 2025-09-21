@@ -1,0 +1,36 @@
+<po-page-default>
+  <div class="wrap">
+
+    <div class="meta">
+      <span><strong>Lat:</strong> {{-7.11532}}</span>
+      <span><strong>Lng:</strong> {{-34.8610}}</span>
+
+    </div>
+
+    <div class="grid">
+      <div class="card address">
+        <h2>Endereço</h2>
+        <div *ngIf="address; else addrLoading" class="addr-row">
+          <span class="addr">{{ address }}</span>
+        <ng-container *ngIf="streetViewUrl; else staticImg">
+          <img [src]="streetViewUrl" alt="Street View" (error)="onStreetError()"/>
+        </ng-container>
+        <ng-template #staticImg>
+          <img *ngIf="staticMapUrl" [src]="staticMapUrl" alt="Static Map"/>
+        </ng-template>
+
+        </div>
+        <ng-template #addrLoading>
+          <span class="muted">Buscando endereço…</span>
+        </ng-template>
+      </div>
+
+      <div class="card">
+        <h2>Mapa</h2>
+        <div #mapEl class="map"></div>
+      </div>
+
+
+    </div>
+  </div>
+</po-page-default>

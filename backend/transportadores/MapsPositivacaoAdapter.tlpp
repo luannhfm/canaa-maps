@@ -1,0 +1,57 @@
+#Include 'tlpp-core.th'
+
+Namespace Canaa.Demo.Adapters
+
+Class MapsPositivacaoAdapter From FWAdapterBaseV2
+	Public Method New()
+	Public Method BuildPage( nCurrentPage As Numeric, nPageSize As Numeric , _cSearch, _cFilter As Character)
+	Private Data _cQuery As Character
+	Private Method _ConfigJsonResultSet()
+EndClass
+
+Method New() CLASS MapsPositivacaoAdapter
+	_Super:New( 'GET', .T. )
+
+  Self:_ConfigJsonResultSet()
+return
+
+Method BuildPage( nCurrentPage As Numeric, nPageSize As Numeric, _cSearch As Character ) Class MapsPositivacaoAdapter
+	Default nCurrentPage := 1
+	Default nPageSize := 10
+
+	cWhere := " D_E_L_E_T_ = ' '" 
+	
+	Self:SetPage( nCurrentPage )
+	Self:SetPageSize( nPageSize )
+	Self:SetQuery( Self:_cQuery )
+	Self:SetWhere(cWhere)
+	Self:SetOrder( "ZP4_ID" )
+
+	If ( Self:Execute() )
+		Self:FillGetResponse()
+	EndIf
+Return
+
+Method _ConfigJsonResultSet() Class MapsPositivacaoAdapter
+
+	Self:_cQuery := "SELECT #QueryFields# FROM " + RetSqlName( 'ZP4' ) + " ZP4 "
+	Self:_cQuery += "WHERE #QueryWhere# "
+	
+	Self:AddMapFields( "ZP4_FILIAL", "ZP4_FILIAL", .T., .F., { "ZP4_FILIAL", "C", TamSX3( "ZP4_FILIAL" )[1], 0 } )
+	Self:AddMapFields( "ZP4_ID"    , "ZP4_ID"    , .T., .T., { "ZP4_ID"    , "C", TamSX3( "ZP4_ID"    )[1], 0 } )
+	Self:AddMapFields( "ZP4_CODVEN", "ZP4_CODVEN", .T., .F., { "ZP4_CODVEN", "C", TamSX3( "ZP4_CODVEN")[1], 0 } )
+	Self:AddMapFields( "ZP4_CLIENT", "ZP4_CLIENT", .T., .F., { "ZP4_CLIENT", "C", TamSX3( "ZP4_CLIENT")[1], 0 } )
+	Self:AddMapFields( "ZP4_LOJA"  , "ZP4_LOJA"  , .T., .F., { "ZP4_LOJA"  , "C", TamSX3( "ZP4_LOJA"  )[1], 0 } )
+	Self:AddMapFields( "ZP4_NOMCLI", "ZP4_NOMCLI", .T., .F., { "ZP4_NOMCLI", "C", TamSX3( "ZP4_NOMCLI")[1], 0 } )
+	Self:AddMapFields( "ZP4_DTVIST", "ZP4_DTVIST", .T., .F., { "ZP4_DTVIST", "D", TamSX3( "ZP4_DTVIST")[1], 0 } )
+	Self:AddMapFields( "ZP4_HORA"  , "ZP4_HORA"  , .T., .F., { "ZP4_HORA"  , "C", TamSX3( "ZP4_HORA"  )[1], 0 } )
+	Self:AddMapFields( "ZP4_STATUS", "ZP4_STATUS", .T., .F., { "ZP4_STATUS", "C", TamSX3( "ZP4_STATUS")[1], 0 } )
+	Self:AddMapFields( "ZP4_LATITU", "ZP4_LATITU", .T., .F., { "ZP4_LATITU", "C", TamSX3( "ZP4_LATITU")[1], 0 } )
+	Self:AddMapFields( "ZP4_LONGIT", "ZP4_LONGIT", .T., .F., { "ZP4_LONGIT", "C", TamSX3( "ZP4_LONGIT")[1], 0 } )
+	Self:AddMapFields( "ZP4_DTFIM" , "ZP4_DTFIM" , .T., .F., { "ZP4_DTFIM" , "D", TamSX3( "ZP4_DTFIM" )[1], 0 } )
+	Self:AddMapFields( "ZP4_ANEXO" , "ZP4_ANEXO" , .T., .F., { "ZP4_ANEXO" , "C", TamSX3( "ZP4_ANEXO" )[1], 0 } )
+	Self:AddMapFields( "ZP4_DIA"   , "ZP4_DIA"   , .T., .F., { "ZP4_DIA"   , "C", TamSX3( "ZP4_DIA"   )[1], 0 } )
+	Self:AddMapFields( "ZP4_SUP"   , "ZP4_SUP"   , .T., .F., { "ZP4_SUP"   , "C", TamSX3( "ZP4_SUP"   )[1], 0 } )
+	Self:AddMapFields( "ZP4_DTPROG", "ZP4_DTPROG", .T., .F., { "ZP4_DTPROG", "D", TamSX3( "ZP4_DTPROG")[1], 0 } )
+
+Return

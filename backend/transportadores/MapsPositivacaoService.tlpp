@@ -1,0 +1,38 @@
+ #Include 'tlpp-core.th'
+
+Namespace Canaa.Demo.Services
+
+Using Namespace Canaa.Demo.Adapters
+
+Class MapsPositivacaoervice From BaseService
+    Private Data _oMapsPositivacaoAdapter
+    Public Method New()
+	Public Method GetPage( nCurrentPage As Numeric, nPageSize As Numeric , cSearch , cStatus , cUsuario )
+
+EndClass
+
+Method New() CLASS MapsPositivacaoervice
+	_Super:New()
+return
+
+Method GetPage( nCurrentPage As Numeric, nPageSize As Numeric , _cSearch, _cFilter  ) Class MapsPositivacaoervice
+    Local jResult  := JsonObject():New()
+
+    Default nCurrentPage := 1
+    Default nPageSize := 10
+
+    Self:_oMapsPositivacaoAdapter := MapsPositivacaoAdapter():New()
+    Self:_oMapsPositivacaoAdapter:BuildPage( nCurrentPage, nPageSize , _cSearch )
+
+    If ( Self:_oMapsPositivacaoAdapter:lOk )
+        jResult['success'] := .T.
+        jResult['result'] := Self:_oMapsPositivacaoAdapter:GetJSONResponse()
+    Else
+        jResult['success'] := .F.
+        jResult['result'] := JsonObject():New(0)
+        jResult['result']['code'] := Self:_oMapsPositivacaoAdapter:GetCode()
+        jResult['result']['message'] := "Erro ao consultar as cadastro de positivacao."
+        jResult['result']['detailedMessage'] := Self:_oMapsPositivacaoAdapter:GetMessage()
+    EndIf
+Return jResult
+
